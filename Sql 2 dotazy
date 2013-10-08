@@ -1,0 +1,91 @@
+
+/*select distinct v.jmeno from vyrobek v, koupil k
+where (k.vID = v.vID) and v.jmeno in
+(
+select distinct v.jmeno from koupil k,vyrobek v 
+where (v.vID = k.vID and k.login = 'pepik') and v.jmeno in
+(
+select distinct v.jmeno from koupil k ,vyrobek v
+where v.vID = k.vID and k.login = 'vinetu'))
+*/
+/*
+select jmeno from vyrobek where vID in
+(select * from koupil where login = 'vinetu')
+and vID in
+(select * from koupil where login = 'pepik')
+*/
+/*
+select distinct v.jmeno from koupil k1 
+join vyrobek v on v.vid = k1.vid
+where login = 'vinetu' and exists
+(select * from koupil k2 where k2.vID = k1.vID and k2.login = 'pepik')
+*/
+/*
+select jmeno from vyrobek v where not exists 
+(select * from koupil k where k.vID = v.vID)
+*/
+/*
+select jmeno from vyrobek where vID not in 
+(select vID from koupil k)
+*/
+/*
+select jmeno from vyrobek where vID in
+(select * from koupil where login = 'vinetu')
+and vID not in
+(select * from koupil where login = 'pepik')
+*/
+/*
+select distinct v.jmeno from koupil k1 
+join vyrobek v on v.vid = k1.vid
+where login = 'vinetu' and not exists
+(select * from koupil k2 where k2.vID = k1.vID and k2.login = 'pepik')
+*/
+/*
+select jmeno from vyrobek where vid in
+(select vid from koupil 
+group by login,vid having count(*) >=2)
+*/
+/*
+select jmeno from vyrobek v where exists
+(select * from koupil k where k.vid = v.vid
+group by login,vid having count(*) >=2)
+*/
+/*
+select v.jmeno from vyrobek v
+where aktualni_cena > all
+(select cena from koupil k where k.vid = v.vid)
+*/
+/*
+select v.jmeno from vyrobek v
+where not exists
+(select * from koupil k 
+where k.vid = v.vid and k.cena > v.aktualni_cena)
+*/
+/*
+select login from koupil 
+group by login having count(*) = 1;
+*/
+/*
+select distinct k.login from koupil k
+where not exists
+(select * from koupil k2
+where k.vid != k2.vid and k2.login = k.login)
+*/
+/*
+select distinct v.jmeno from koupil k
+join vyrobek v on v.vid = k.vid
+where not exists
+(select * from koupil k2
+where k.vid != k2.vid and k2.login = k.login)
+*/
+/*
+select distinct k.login from koupil k
+where cena <= all
+(select cena from koupil k2
+where k2.login != k.login and k.vid = k2.vid)
+*/
+/*
+select * from r1,r3
+join r2 on r1.id = r2.id
+join r3 on r3.id = r2.id
+*/
